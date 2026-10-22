@@ -26,4 +26,4 @@ jobs:
         env:
           MONGODB_URI: ${{ secrets.DEMO_CLEANUP_MONGODB_URI }}
           MONGODB_DATABASE: portfolio-demos
-          MONGODB_relay_rooms: relay_rooms
+          MONGODB_COLLECTION: relay_rooms

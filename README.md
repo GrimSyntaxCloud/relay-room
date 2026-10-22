@@ -1,6 +1,6 @@
 # Relay Room
 
-[Prepared deployment URL — not published yet](https://mango-sea-0c6bba80f.4.azurestaticapps.net)
+[Demo URL](https://mango-sea-0c6bba80f.4.azurestaticapps.net)
 
 A small-group video chat recovered from Andres's [`videoCallWebRTC` project](https://github.com/GrimSyntaxCloud/javaScript/tree/master/videoCallWebRTC). Make a room, share a private invitation, join with a display name, mute/unmute, pause/resume the camera, leave, or end the room as host. The free demo supports **up to four participants**.
 
