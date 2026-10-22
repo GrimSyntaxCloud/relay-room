@@ -831,3 +831,20 @@ body.paused * {
     font-size: 10px;
   }
 }
+
+html:has(body.paused) {
+  scroll-behavior: auto;
+}
+
+@media (max-width: 700px) {
+  button,
+  input,
+  select {
+    min-height: 44px;
+  }
+  nav a {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
