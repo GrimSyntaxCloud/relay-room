@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Relay Room — a direct peer-to-peer video chat demo for small groups, with no recordings."
+    />
+    <title>Relay Room — A little closer.</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="app.mjs"></script>
+  </head>
+  <body>
+    <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+    <canvas id="flow" aria-hidden="true"></canvas
+    ><a class="skip" href="#room-setup">Skip to room controls</a>
+    <header>
+      <a href="#" class="brand"
+        ><span class="brand-orb" aria-hidden="true"></span>relay<span
+          >room</span
+        ></a
+      >
+      <nav>
+        <a href="#how">How it feels</a
+        ><a href="https://github.com/GrimSyntaxCloud/relay-room"
+          >Behind the connection ↗</a
+        ><button id="motion" aria-pressed="false">Pause motion</button>
+      </nav>
+      <span class="header-note">SMALL ROOMS. REAL CONNECTIONS.</span>
+    </header>
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow"><span></span> A LITTLE SPACE TO BE TOGETHER</p>
+          <h1>A little closer.<br /><em>Even from here.</em></h1>
+          <p class="intro">
+            A face, a familiar voice, a moment shared.<br />Make a room. Send a
+            link. Be there.
+          </p>
+          <div class="trust">
+            <span>◌ No recordings</span><span>↗ Up to four people</span
+            ><span>✳ Free demo</span>
+          </div>
+        </div>
+        <div class="connection-art" aria-hidden="true">
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+          <div class="liquid-orb"></div>
+          <span class="art-label">DISTANCE IS JUST A NUMBER.</span
+          ><span class="art-chip">hello, from over here <i>↗</i></span>
+        </div>
+      </section>
+      <section id="room-setup" class="room-stage">
+        <div class="stage-heading">
+          <div>
+            <p class="eyebrow">01 / YOUR CORNER OF THE INTERNET</p>
+            <h2 id="room-title">Room for <em>a moment.</em></h2>
+          </div>
+          <span id="connection-state" class="status-chip"
+            >● READY WHEN YOU ARE</span
+          >
+        </div>
+        <div class="stage-grid">
+          <div class="video-area">
+            <div id="videos" class="videos">
+              <article id="self-tile" class="video-tile self">
+                <video
+                  id="local-video"
+                  muted
+                  playsinline
+                  autoplay
+                  aria-label="Your camera preview"
+                ></video>
+                <div class="video-placeholder" id="local-placeholder">
+                  <span class="preview-orb" aria-hidden="true"></span>
+                  <h3>Your presence,<br /><em>on your terms.</em></h3>
+                  <p>
+                    Camera and microphone stay off<br />until you choose to
+                    start or join.
+                  </p>
+                </div>
+                <div class="video-label">
+                  <span id="self-name">YOU / PREVIEW</span
+                  ><span id="self-state">CAMERA OFF</span>
+                </div>
+              </article>
+            </div>
+            <div class="controls" aria-label="Call controls">
+              <button id="mic" disabled aria-pressed="false">
+                <span aria-hidden="true">◉</span> Mute mic</button
+              ><button id="camera" disabled aria-pressed="false">
+                <span aria-hidden="true">▣</span> Camera off</button
+              ><button id="copy-link" disabled>
+                <span aria-hidden="true">↗</span> Invite</button
+              ><button id="leave" class="leave" disabled>
+                <span aria-hidden="true">↙</span> Leave
+              </button>
+            </div>
+            <p class="room-message" id="room-message" role="status">
+              No one is watching. This preview belongs to you.
+            </p>
+          </div>
+          <aside class="setup-panel">
+            <div id="setup-fields">
+              <div class="tabs" role="group" aria-label="Room action">
+                <button id="new-tab" aria-pressed="true">Make a room</button
+                ><button id="join-tab" aria-pressed="false">
+                  Join a friend
+                </button>
+              </div>
+              <label for="display-name">What should we call you?</label
+              ><input
+                id="display-name"
+                placeholder="Your first name"
+                maxlength="40"
+                autocomplete="given-name"
+              />
+              <div id="new-fields">
+                <label for="room-name">Give this moment a name</label
+                ><input
+                  id="room-name"
+                  value="The little catch-up"
+                  maxlength="50"
+                />
+              </div>
+              <div id="join-fields" hidden>
+                <label for="invite-link">Your invitation link</label
+                ><input
+                  id="invite-link"
+                  placeholder="Paste your private room link"
+                  maxlength="500"
+                  autocomplete="off"
+                />
+              </div>
+              <button id="start" class="primary">
+                Open a room <span>↗</span>
+              </button>
+              <p class="permission-note">
+                Starting or joining asks for your camera and microphone. You can
+                turn either off at any time.
+              </p>
+            </div>
+            <div id="active-fields" hidden>
+              <p class="eyebrow">THIS MOMENT IS YOURS</p>
+              <h3>Leave the door<br /><em>a little open.</em></h3>
+              <p>
+                Share your invitation privately. Anyone with it can join, until
+                the four-person room is full.
+              </p>
+              <label for="share-link">Private invitation</label
+              ><input
+                id="share-link"
+                readonly
+                aria-label="Private invitation link"
+              />
+              <p id="lifetime"></p>
+              <button id="end-room" class="secondary" hidden>
+                End room for everyone
+              </button>
+            </div>
+            <div class="connection-note">
+              <span aria-hidden="true">↳</span>
+              <p>
+                Direct connections, no paid relay.<br />Some work or restricted
+                networks may not connect. Try another network if that happens.
+              </p>
+            </div>
+            <p id="error" class="error" role="alert"></p>
+          </aside>
+        </div>
+      </section>
+      <section class="how" id="how">
+        <div>
+          <p class="eyebrow">02 / LESS FRICTION. MORE HUMAN.</p>
+          <h2>The best technology<br /><em>gets out of the way.</em></h2>
+        </div>
+        <div class="how-cards">
+          <article>
+            <span>01 / SHOW UP</span>
+            <h3>A room, not an account.</h3>
+            <p>
+              Use a first name and a private invitation. No profile to complete.
+              No contact list to upload.
+            </p>
+          </article>
+          <article>
+            <span>02 / STAY IN CONTROL</span>
+            <h3>Your voice. Your choice.</h3>
+            <p>
+              Mute your mic, pause your camera, or leave with one click. Leaving
+              stops your camera and microphone tracks.
+            </p>
+          </article>
+          <article>
+            <span>03 / LET IT GO</span>
+            <h3>A moment, not a record.</h3>
+            <p>
+              Media travels between participants and is never recorded by this
+              app. Room setup data expires after 30 minutes.
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <a href="#" class="brand"
+        ><span class="brand-orb"></span>relay<span>room</span></a
+      >
+      <p>
+        Recovered from Andres’s WebRTC project.<br />Rebuilt with native browser
+        APIs and AI assistance.
+      </p>
+      <a href="https://github.com/GrimSyntaxCloud/relay-room"
+        >Read the connection guide ↗</a
+      >
+    </footer>
+  </body>
+</html>
