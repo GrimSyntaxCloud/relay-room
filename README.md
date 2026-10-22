@@ -45,3 +45,5 @@ Original CSS, SVG and native Web Animations keep the animation layer dependency-
 `npm test` covers invitations, membership, capacity, recipient-only signaling, host controls, departure and fixed expiry. For a local browser test without using real devices, run `node test/browser-server.cjs` and open `http://127.0.0.1:4394/__test` in two tabs. The test-only route uses animated canvas video and silent generated audio. It is excluded from Azure packages.
 
 Original learning project: Andres Macias. Modernization, design and security implementation developed with AI assistance. Real calls require HTTPS (localhost is allowed by browsers) and camera/microphone consent. The app does not record, but it cannot prevent participants from using independent recording tools.
+
+The app carries its private bearer credential in `X-Demo-Authorization`, because the Azure Static Web Apps gateway reserves the standard `Authorization` header. The value is still validated and hashed by the server; it is never a database credential.

@@ -63,7 +63,7 @@ async function api(
     method,
     headers: {
       "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(token ? { "X-Demo-Authorization": `Bearer ${token}` } : {}),
     },
     ...(body ? { body: JSON.stringify(body) } : {}),
   });
@@ -352,7 +352,7 @@ addEventListener("pagehide", () => {
   if (session)
     fetch(`/api/rooms/${session.roomId}/membership`, {
       method: "DELETE",
-      headers: { Authorization: `Bearer ${session.token}` },
+      headers: { "X-Demo-Authorization": `Bearer ${session.token}` },
       keepalive: true,
     }).catch(() => {});
   session = null;

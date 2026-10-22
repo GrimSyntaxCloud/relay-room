@@ -12,7 +12,7 @@ function setup() {
     advance: (n) => (now += n),
   };
 }
-const auth = (p) => ({ Authorization: "Bearer " + p.token });
+const auth = (p) => ({ "X-Demo-Authorization": "Bearer " + p.token });
 async function create(a) {
   return (
     await a

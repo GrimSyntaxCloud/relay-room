@@ -39,16 +39,14 @@ function createApp({ store, now = () => Date.now() }) {
       isDemo: false,
     };
     await store.create(room);
-    res
-      .status(201)
-      .json({
-        roomId: room._id,
-        invite,
-        peerId: person.record.id,
-        token: person.secret,
-        name: room.name,
-        expiresAt: room.expiresAt,
-      });
+    res.status(201).json({
+      roomId: room._id,
+      invite,
+      peerId: person.record.id,
+      token: person.secret,
+      name: room.name,
+      expiresAt: room.expiresAt,
+    });
   });
   async function room(id) {
     if (!/^[\da-f-]{36}$/.test(id)) fail(404, "Room not found.");
@@ -58,7 +56,9 @@ function createApp({ store, now = () => Date.now() }) {
     return r;
   }
   function auth(req, r) {
-    const value = req.get("Authorization")?.match(/^Bearer ([\w-]{43})$/)?.[1];
+    const value = req
+      .get("X-Demo-Authorization")
+      ?.match(/^Bearer ([\w-]{43})$/)?.[1];
     const p = value && r.participants.find((p) => p.key === hash(value));
     if (!p)
       fail(
