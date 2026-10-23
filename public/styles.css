@@ -848,3 +848,22 @@ html:has(body.paused) {
     align-items: center;
   }
 }
+
+/* Vector arrows keep their shape across Safari, system fonts, and emoji sets. */
+svg.compat-arrow {
+  display: inline-block;
+  position: static;
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+  vertical-align: -0.125em;
+  fill: none;
+  stroke: currentColor;
+}
+
+/* Keep text-entry controls readable without iPhone Safari focus zoom. */
+@media (max-width: 640px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), select, textarea {
+    font-size: 16px;
+  }
+}
