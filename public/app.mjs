@@ -1,3 +1,4 @@
+const motionPreference = matchMedia("(prefers-reduced-motion: reduce)");
 const $ = (s) => document.querySelector(s);
 let mode = "new",
   session = null,
@@ -6,7 +7,7 @@ let mode = "new",
   polling = false,
   starting = false,
   invite = "",
-  motion = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+  motion = !motionPreference.matches;
 const peers = new Map(),
   seen = new Set();
 const mediaError = (e) =>
@@ -29,10 +30,10 @@ function tab(value) {
   $("#join-fields").hidden = value !== "join";
   $("#new-tab").setAttribute("aria-pressed", value === "new");
   $("#join-tab").setAttribute("aria-pressed", value === "join");
-  $("#start").innerHTML =
-    value === "new"
-      ? "Open a room <span>↗</span>"
-      : "Join the moment <span>↗</span>";
+  const button = $("#start");
+  const arrow = button.querySelector("svg");
+  button.replaceChildren(document.createTextNode(value === "new" ? "Open a room " : "Join the moment "));
+  if (arrow) button.append(arrow);
 }
 $("#new-tab").onclick = () => tab("new");
 $("#join-tab").onclick = () => tab("join");
@@ -403,18 +404,20 @@ new IntersectionObserver((entries) => {
   cancelAnimationFrame(raf);
   draw();
 }).observe(canvas);
-$("#motion").onclick = () => {
-  motion = !motion;
+function applyMotion() {
   document.body.classList.toggle("paused", !motion);
-  $("#motion").setAttribute("aria-pressed", !motion);
+  $("#motion").setAttribute("aria-pressed", String(!motion));
   $("#motion").textContent = motion ? "Pause motion" : "Resume motion";
   cancelAnimationFrame(raf);
   if (!motion) ctx?.clearRect(0, 0, canvas.width, canvas.height);
   else draw();
-};
-if (!motion) {
-  document.body.classList.add("paused");
-  $("#motion").textContent = "Resume motion";
-  $("#motion").setAttribute("aria-pressed", "true");
 }
-draw();
+$("#motion").onclick = () => {
+  motion = !motion;
+  applyMotion();
+};
+motionPreference.addEventListener("change", (event) => {
+  motion = !event.matches;
+  applyMotion();
+});
+applyMotion();
